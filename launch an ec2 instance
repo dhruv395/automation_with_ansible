@@ -2,15 +2,23 @@
 - name: launching instance
   hosts: localhost
   tasks:
+
           - name: launching ec2
             ec2:
-                    key_name: 
+                    key_name: adt_key
                     region: us-east-2
                     instance_type: t2.micro
-                    image: ami-0c55b159cbfafe1f0
+                    image: ami-05220ffa0e7fce3d1
+                    wait: yes
+                    wait_timeout: 500
+                    volumes:
+                            - device_name: /dev/sda1
+                              volume_type: gp2
+                              volume_size: 16
+                    instance_tags:
+                            name: webserver
                     group: ansible_SG
-                    vpc_subnet_id: 
+                    vpc_subnet_id: subnet-ee2afaa2
                     assign_public_ip: yes
                     count: 1
-                    aws_access_key: 
-                    aws_secret_key: 
+
