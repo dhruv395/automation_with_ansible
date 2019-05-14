@@ -1,0 +1,20 @@
+	Python 2 (version 2.7) or Python 3 (versions 3.5 and higher) installed. 
+	Ansible 2.0:
+	AWS-CLI
+	Boto
+	boto3
+	botocore
+	Supported OS:  Red Hat, Debian, CentOS, macOS, any of the BSDs, and so on.
+	Ansible by default manages machines over the SSH protocol.
+
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+ON Ubuntu:
+
+	sudo apt-get update
+	$ sudo apt-get install software-properties-common
+	$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+	$ sudo apt-get install ansible
+	ansible --version
+	pip install boto
+	or pip install -U boto	->U: upgrade
