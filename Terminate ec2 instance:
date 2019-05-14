@@ -1,0 +1,18 @@
+---
+- name: terminate ec2 instances
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+          instance_ids:
+                  - 'i-****************'
+                  - 'i-*****************'
+          region: ap-south-1
+  tasks:
+          - name: terminate instances
+            ec2:
+                    instance_ids: '{{ instance_ids }}'
+                    region: '{{ region }}'
+                    state: 'absent'
+                    aws_access_key: **********************
+                    aws_secret_key: ***********************
