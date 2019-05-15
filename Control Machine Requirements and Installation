@@ -1,0 +1,57 @@
+	Python 2 (version 2.7) or Python 3 (versions 3.5 and higher) installed. 
+	Ansible 2.0:
+	AWS-CLI
+	Boto
+	boto3
+	botocore
+	Supported OS:  Red Hat, Debian, CentOS, macOS, any of the BSDs, and so on.
+	Ansible by default manages machines over the SSH protocol.
+
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+ON Ubuntu:
+
+	sudo apt-get update
+	$ sudo apt-get install software-properties-common
+	$ sudo apt-add-repository --yes --update ppa:ansible/ansible
+	$ sudo apt-get install ansible
+	ansible --version
+	pip install boto
+	or pip install -U boto	->U: upgrade
+
+export AWS_ACCESS_KEY_ID='****************'
+export AWS_SECRET_ACCESS_KEY='**************’
+
+In Ansible control machine:
+
+		In rhel					ubuntu
+useradd -d /home/ansadmin -m ansadmin	   adduser username
+passwd ansadmin
+passwd -x -1 ansadmin  ->for non expiry
+
+Follow the same step in remote machine also:
+
+useradd -d /home/ansadmin -m ansadmin
+passwd ansadmin
+passwd -x -1 ansadmin
+sudo apt update
+sudo apt install python
+
+
+•	Grant sudoers permission to ansadm user in both control and host machine   /etc/sudoers
+•	ansadmin ALL=(ALL:ALL) NOPASSWD:ALL
+•	service sshd restart
+
+Enable the password authentication to yes for both control and host machine. /etc/ssh/sshd_config
+•	PasswordAuthentication yes
+
+Now go to  Control machne: 
+•	su - ansadm 
+•	ssh-keygen  
+•	ssh-copy-id  <remote machine ip>
+
+make ansadmin  the owner of /etc/ansible  directory  in control machine
+chown  –R  ansadmin:ansadmin  /etc/ansible 
+
+•	Make entry of remote machine’s ip in inventory file, /etc/ansible/hosts
+•	Run command, ansible all -u ansible -m ping
