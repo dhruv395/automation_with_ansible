@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  gather_facts: false
+  tasks:
+          - name: create a new ec2 key pair, returns generated private key
+            ec2_key:
+                    name: virginia_key
+                    region: us-east-1
