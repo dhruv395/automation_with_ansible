@@ -63,5 +63,6 @@ Static Inventory format:
 [webservers]
 test-web-server ansible_host=<ip or dns>
 dev-web-server  ansible_host==<ip or dns>
+badwolf.example.com:5309		-> if remote machine is accessible with different port.
 
 
