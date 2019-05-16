@@ -56,3 +56,12 @@ chown  –R  ansadmin:ansadmin  /etc/ansible
 
 •	Make entry of remote machine’s ip in inventory file, /etc/ansible/hosts
 •	Run command, ansible all -u ansible -m ping
+
+
+Static Inventory format:
+
+[webservers]
+test-web-server ansible_host=<ip or dns>
+dev-web-server  ansible_host==<ip or dns>
+
+
