@@ -49,6 +49,7 @@ Now go to  Control machne:
 •	su - ansadm 
 •	ssh-keygen  
 •	ssh-copy-id  <remote machine ip>
+•	N.B: if the remote machine is from another region ssh-copy-id  <remote machine public ip>
 
 make ansadmin  the owner of /etc/ansible  directory  in control machine
 chown  –R  ansadmin:ansadmin  /etc/ansible 
