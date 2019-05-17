@@ -1,0 +1,30 @@
+https://docs.ansible.com/ansible/latest/user_guide/intro_dynamic_inventory.html	
+
+Cd /etc/ansible
+Wget  https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py
+
+chmod +x ec2.py
+
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini
+
+Test the script by itself to make sure your config is correct:
+./ec2.py –list
+
+ansible -i ec2.py -u ansible all -m ping
+or
+ansible -i ec2.py -u ansible us-east-1 -m ping
+
+
+N.B: You can filter for specific EC2 instances by creating an environment variable
+named EC2_INSTANCE_FILTERS, which has the same format as the instance filters. For example, to find all hosts whose name begins with 'webserver',
+
+•	export EC2_INSTANCE_FILTERS='tag:Name=Webserver*'
+•	then
+
+
+
+•	Inside file -> ec2.ini   		-> add the below line
+•	instance_filters = tag:Name=Webserver*
+
+Then run command, 
+•	ansible -i ec2.py -u ansible tag_Name_Webserver* -m ping
