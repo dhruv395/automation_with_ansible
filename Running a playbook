@@ -1,0 +1,36 @@
+#Check for bad syntax: 
+ansible-playbook apache.yml --syntax-check 
+
+ #Running a playbook in dry-run mode: 
+Sometimes it can be useful to see what Ansible might do, but without actually changing anything.   
+
+ansible-playbook apache.yml --check 
+
+#### Specifying a user: 
+ansible-playbook playbooks/atmo_playbook.yml --user atmouser 
+
+ansible-playbook apache.yml --list-tasks	                          ####lists all tasks in playbook 
+ansible-playbook apache.yml --start-at-task="copy index.html file"	### start playbook from a particular task. 
+
+#Limit to one host: 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --limit "host1" 
+
+####Limit to multiple hosts: 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --limit "host1,host2" 
+
+####Negated limit: (NOTE: Single quotes MUST be used to prevent bash interpolation.) 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --limit 'all:!host1' 
+
+## Limit to host group: 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --limit 'group1' 
+
+ ####Limit to all tags matching install: 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --tags 'install' 
+
+### Skip any tag matching sudoers 
+ansible-playbook playbooks/PLAYBOOK_NAME.yml --skip-tags 'sudoers' 
+
+ ###run a playbook on the target hosts without inventory files. 
+ansible-playbook apache.yml -i 192.168.1.36, 
+
+ 
