@@ -19,17 +19,15 @@ ON Ubuntu:
 	pip install boto
 	or pip install -U boto	->U: upgrade
 
-export AWS_ACCESS_KEY_ID='****************'
-export AWS_SECRET_ACCESS_KEY='**************’
 
-In Ansible control machine:
+#####In Ansible control machine: Create a new user for ansible administration & grant admin access to user (Master and Slave)
 
 		In rhel					ubuntu
-useradd -d /home/ansadmin -m ansadmin	   adduser username
+useradd -d /home/ansadmin -m ansadmin	   	adduser username
 passwd ansadmin
 passwd -x -1 ansadmin  ->for non expiry
 
-Follow the same step in remote machine also:
+####Follow the same step in remote machine also:
 
 useradd -d /home/ansadmin -m ansadmin
 passwd ansadmin
@@ -66,3 +64,6 @@ dev-web-server  ansible_host==<ip or dns>
 badwolf.example.com:5309		-> if remote machine is accessible with different port.
 
 
+#######To successfully make an API call to AWS, export two environment variables:
+export AWS_ACCESS_KEY_ID='****************'
+export AWS_SECRET_ACCESS_KEY='**************’
