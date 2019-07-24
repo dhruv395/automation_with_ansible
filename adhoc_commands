@@ -1,0 +1,46 @@
+ansible all -m ping
+ansible all -m ping -u bruce                 ## To override the remote user name, just use the ‘-u’ parameter.
+ansible all -m ping -u bruce --become        ###ess sudo mode
+ansible appserver -m ping	-u ansadmin --ask-pass 
+
+ansible --list-host all 
+ansible --list-host appserver 
+
+sudo ansible all -m shell -a uptime	                              : shell module 
+ansible all -m shell -a "uname -a;df -h"	                        : using shell module; a- is for command 
+ansible all -m shell -a "uname -a;df -h" -v	                      : verbose 
+sudo ansible appserver  -m yum -a "name=httpd state=present"	    : install any package using yum module 
+sudo  ansible appserver  -m service -a "name=httpd state=started"	: service module 
+ansible all -m shell -a 'service sshd status'	                    : shell module 
+
+###### copy file from control server to remote server using copy module; all- all server  
+ansible all -m copy -a "src=/tmp/testfile dest=/tmp/testfile"	
+
+#####The file module allows changing ownership and permissions on files.These same options can be passed directly to the copy module as well: \
+file module: to change permission of file in remote machine 
+ansible appserver -m file -a "dest=/tmp/testfile mode=744"
+ansible webservers -m file -a "dest=/srv/foo/b.txt mode=600 owner=mdehaan group=mdehaan" 
+####The file module can also create directories, similar to mkdir -p: 
+ansible webservers -m file -a "dest=/path/to/c mode=755 owner=mdehaan group=mdehaan state=directory" 
+ansible webservers -m file -a "dest=/path/to/c state=absent"  ### delete directories (recursively) and delete files
+
+### /usr/bin/ansible will default to running from your user account. If you do not like this behavior, pass in “-u username”. 
+If you want to run commands as a different user, it looks like this
+ansible atlanta -a "/usr/bin/foo" -u username 
+
+
+###### Mnaging Packages: 
+$ ansible webservers -m yum -a "name=acme state=present"	##Ensure a package is installed, but don’t update it: 
+$ ansible webservers -m yum -a "name=acme-1.5 state=present"	#Ensure a package is installed to a specific version: 
+ansible webservers -m yum -a "name=acme state=latest"	##nsure a package is at the latest version: 
+$ ansible webservers -m yum -a "name=acme state=absent"	##nsure a package is not installed: 
+
+
+#Users and Groups: 
+The ‘user’ module allows easy creation and manipulation of existing user accounts, 
+as well as removal of user accounts that may exist: 
+
+ ansible all -m user -a "name=foo password=<crypted password here>" 
+$ ansible all -m user -a "name=foo state=absent" 
+ 
+ 
