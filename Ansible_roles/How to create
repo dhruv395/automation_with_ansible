@@ -1,0 +1,53 @@
+Step1: 
+
+#Cd /tasks 
+
+Inside main.yml 
+
+--- 
+
+  include: install.yml 
+
+  include: configure.yml 
+
+  include: service.yml 
+
+ 
+
+###Now inside install.yml 
+
+    --- 
+
+      name: install apache 
+
+      yum:  
+
+        name: httpd 
+
+        state: latest 
+
+ 
+
+##Now inside configure.yml 
+
+--- 
+
+  name: httpd.conf file 
+
+  copy: src=httpd.conf  dest=/etc/httpd/conf/httpd.conf 
+
+  notify: 
+
+    restart apache service 
+
+  Name: send index.html 
+
+  Copy: src=index.html  dest=/var/www/html/index.html 
+
+ ###Now inside service.yml 
+
+  --- 
+
+  - name: starting apache 
+
+   service: name=httpd state=started 
