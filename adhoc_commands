@@ -13,6 +13,9 @@ sudo ansible appserver  -m yum -a "name=httpd state=present"	    : install any p
 sudo  ansible appserver  -m service -a "name=httpd state=started"	: service module 
 ansible all -m shell -a 'service sshd status'	                    : shell module 
 
+#######if you get permission denied error then use "--become" option
+ansible all -m apt -a "name=apache2 state=absent" --become
+
 ###### copy file from control server to remote server using copy module; all- all server  
 ansible all -m copy -a "src=/tmp/testfile dest=/tmp/testfile"	
 
