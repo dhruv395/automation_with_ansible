@@ -1,0 +1,22 @@
+Roles are a way to group multiple tasks together into one container to do the automation in a very effective manner.
+With clean directory structure. 
+Roles are a set of tasks and additional files for a certain role which allow you to break up the configuration. 
+It can be easily reused the codes by anyone if the role is suitable to someone. 
+It can be easily modified and reduce syntax error. 
+
+ansible-galaxy init  /etc/ansible/roles/<ROLE_NAME>  --offline 
+
+### tasks - contains the main list of tasks to be executed by the role. Installing packages, copying files. 
+
+### handlers - tasks based on some actions. Triggers. E.g; incase httpd.conf changes,  
+It should trigger service restart. 
+
+#### defaults - default variables for the role or data about the role. E.g; port no.  
+
+#### vars - both vars & defaults store variables. Variables stored under var has higher priority and difficult to override.  E.g; diff port no, document root  
+
+##### files - contains files which can be deployed via this role. (static files) 
+
+##### templates - similar to files except that template support dynamic files. Jina2 - template language. 
+
+##### meta -info about the role. Author, version etc dependencies. 
