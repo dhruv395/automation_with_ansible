@@ -1,0 +1,13 @@
+---
+- hosts: webservers
+  remote_user: ansadm
+  become: yes
+  tasks:
+          - name: ensure apache2 is at latest version
+            apt:
+                    name: apache2
+                    state: latest
+          - name: write the apache2 config file
+            template:
+                    src: /opt/httpd.conf
+                    dest: /etc/httpd.conf
