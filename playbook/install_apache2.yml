@@ -6,3 +6,6 @@
             apt:
                     name: apache2
                     state: present
+                    
+ run command,
+ ansible-playbook apache2.yml --ask-sudo-pass
