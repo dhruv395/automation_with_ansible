@@ -1,0 +1,26 @@
+## copy files from local to remote machine
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+          - name: copy script files from remote to local
+            copy:
+                    src: /home/ansadm/apache-mysql.yml
+                    dest: /home/ansadm
+                    
+                   
+####### fetch files from remote to local hosts
+
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  tasks:
+          - name: fetch from remote to local hosts
+            synchronize: src={{ item }} dest=/home/ansadm/ mode=pull
+            with_items:
+                    - "/root/function.sh"
+                    - "/root/monitorfile.sh"
+                    - "/root/filecheck.sh"
+
