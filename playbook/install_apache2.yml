@@ -1,11 +1,8 @@
 ---
 - hosts: webservers
-  sudo: yes
+  become: true
+  become_user: root
+  gather_facts: true
   tasks:
           - name: install apache2
-            apt:
-                    name: apache2
-                    state: present
-                    
- run command,
- ansible-playbook apache2.yml --ask-sudo-pass
+            package: name=apache2 update_cache=yes state=present
