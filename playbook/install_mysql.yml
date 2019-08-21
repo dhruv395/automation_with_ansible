@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: true
+  vars:
+          mysql_root_password: fart
+
+  tasks:
+          - name: install mysql
+            apt: name={{ item }} update_cache=yes state=present
+            with_items:
+                    - python-mysqldb
+                    - mysql-server
+ #        - name: copy cnf
+ #          copy: src=.my.cnf dest=~/.my.cnf owner=ubuntu mode=0644
+
+          - name: start mysql service
+            service:
+                    name: mysql
+                    state: started
+                    enabled: true
+          - name: create database user dev
+            mysql_user: user=dev password=devops priv=*.*:ALL state=present
+          - name: create database devdb
+            mysql_db: db=devdb state=present
+          - name: create a table prod
+            command: mysql -u dev -pdevops -e 'create table prod (name varchar(30), email varchar(30));' devdb
