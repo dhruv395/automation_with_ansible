@@ -1,0 +1,21 @@
+---
+- hosts: webservers
+  become: true                ## activate the privileges escalation to become another user 
+  become_user: root           ## become root user
+  gather_facts: true          ##
+  tasks:
+          - name: install apache2
+            package: name=apache2 state=present
+          - name: install apache2-php5
+            package: name=libapache2-mod-php state=present
+          - name: install php-cli
+            package: name=php-cli state=present
+          - name: install php-mcrypt
+            package: name=php-mcrypt state=present
+          - name: install php-gd
+            package: name=php-gd state=present
+          - name: install php-mysql
+            package: name=php-mysql state=present
+          - name: install mysql server
+            package: name=mysql-server state=present
+~
