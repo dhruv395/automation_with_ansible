@@ -18,4 +18,27 @@
             package: name=php-mysql state=present
           - name: install mysql server
             package: name=mysql-server state=present
-~
+
+
+############# to delete packages from remote machine
+---
+- hosts: webservers
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+          - name: remove apache2
+            package: name=apache2 state=absent
+          - name: remove apache2-php5
+            package: name=libapache2-mod-php state=absent
+          - name: remove php-cli
+            package: name=php-cli state=absent
+          - name: remove php-mcrypt
+            package: name=php-mcrypt state=absent
+          - name: remove php-gd
+            package: name=php-gd state=absent
+          - name: remove php-mysql
+            package: name=php-mysql state=absent
+          - name: remove mysql server
+            package: name=mysql-server state=absent
+
