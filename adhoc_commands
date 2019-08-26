@@ -1,6 +1,7 @@
 ansible all -m ping
 ansible all -m ping -u bruce                 ## To override the remote user name, just use the ‘-u’ parameter.
-ansible all -m ping -u bruce --become        ###ess sudo mode
+ansible all -m ping -u bruce --become        ###use sudo mode
+ansible docker-server -m shell -a "systemctl stop apache2.service" --become   ### use become to manage services or it'l give error
 ansible appserver -m ping	-u ansadmin --ask-pass 
 
 ansible --list-host all 
