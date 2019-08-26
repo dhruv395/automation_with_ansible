@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+          - name: update pacthes in ubuntu machines
+            apt:
+                    name: "*"
+                    state: latest
+                    update_cache: yes
+                    force_apt_get: yes
+            when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
+          - name:  pacthes for rhel
+            yum:
+                    name: '*'
+                    state: latest
+            when: ansible_distribution == "Red Hat"
