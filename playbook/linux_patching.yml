@@ -2,7 +2,11 @@
 [dev-redhat]
 testserver1
 testserver2
-[root@ansible-master ansible]#
+
+#Before running playbook let's check the OS distribution on remote machine
+ansible all -m setup | grep ansible_distribution
+
+#we need to also check if any service is running on remote machine
 
 [root@ansible-master ansible]# ansible dev-redhat -m shell -a "uname -a;uptime"
 [root@ansible-master ansible]# ansible dev-redhat -m shell -a "ps -eaf | grep apache"
@@ -12,7 +16,6 @@ testserver2
 ---
 ## Demo Ansible Playbook to perform patching on RHEl/CentOS Server
 ## For Demo Purpose only.. Use it at your own responsibility.
-## Can update it as per your requirements - Yogesh 27/12/2016
 
 - hosts: dev-redhat
   become_user: root
