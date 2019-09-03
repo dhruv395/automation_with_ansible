@@ -11,3 +11,17 @@
             template:
                     src: /opt/httpd.conf
                     dest: /etc/httpd.conf
+                    
+ #################
+ 
+ ---
+- hosts: loadbalancer
+  become: true
+  tasks:
+    - name: install nginx
+      apt: name=nginx state=present update_cache=yes
+
+    - name: ensure nginx started
+      service: name=nginx state=started enabled=yes
+      
+   
