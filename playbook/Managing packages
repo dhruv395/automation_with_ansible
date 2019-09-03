@@ -24,4 +24,12 @@
     - name: ensure nginx started
       service: name=nginx state=started enabled=yes
       
+  ###########################
+  
+  ---
+  - hosts: all
+    tasks:
+      - name: get server hostname
+        command: hostname
+  
    
