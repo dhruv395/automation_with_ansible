@@ -1,0 +1,43 @@
+This playbook is to deploy jar file from jenkins to multiple tomcat servers################
+
+- hosts: dev-load
+  gather_facts: no
+  strategy: free
+  user: ubuntu
+  tasks:
+     - name: Get timestamp from the system
+       shell: "date +%Y-%m-%d%H-%M-%S"
+       register: tstamp
+     - name: Set variables
+       set_fact:
+         cur_date: "{{ tstamp.stdout[0:10]}}"
+         cur_time: "{{ tstamp.stdout[10:]}}"
+     - name: Uploading jar
+       copy:
+         src: /var/lib/jenkins/workspace/DEV-Tomcat-Server-LB/target/tomcat-server-0.0.1-SNAPSHOT.jar
+         dest: /home/ubuntu/deployment/tomcat-server-jenkins-build/
+     - name: Changing file permission
+       file:
+         path: /home/ubuntu/deployment/tomcat-server-jenkins-build/tomcat-server-0.0.1-SNAPSHOT.jar
+         owner: ubuntu
+         group: ubuntu
+         mode: 0664
+     - name: Stopping tracker-service
+       shell: /etc/init.d/tomcat-server stop
+     - name: Taking backup of running build
+       command: tar -czvf /home/ubuntu/tomca-server/backup/tomcat-server-0.0.1-SNAPSHOT-{{ cur_date }}{{ cur_time }}.jar.tar.gz /home/ubuntu/tomca-server/target/tomcat-server-0.0.1-SNAPSHOT.jar
+     - name: Check permission
+       file:
+         path: /home/ubuntu/tomcat-server/backup/
+         owner: ubuntu
+         group: ubuntu
+         mode: 0777
+     - name: Deploying jar
+       copy:
+         src: /home/ubuntu/deployment/tomcat-server-jenkins-build/{{ item }}
+         dest: /home/ubuntu/tomcat-server/target/
+         remote_src: yes
+       with_items:
+         - tomcat-server-0.0.1-SNAPSHOT.jar
+     - name: Starting tomcat-server
+       shell: /etc/init.d/tomcat-server start
