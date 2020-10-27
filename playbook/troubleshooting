@@ -1,0 +1,5 @@
+##If you get below error while running playbook,
+  fatal: [UAT-MongoDB-Node2]: FAILED! => {"msg": "Missing sudo password"}
+
+Then use "-K" option
+ansible-playbook playbook/aws_inspector-agent.yml --check -K
