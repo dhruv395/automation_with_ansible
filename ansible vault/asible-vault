@@ -1,0 +1,27 @@
+ansible-vault create filename.yml   	#create a vault-password-file
+ansible-vault view filename.yml			#view file	
+ansible-vault edit filename.yml			#edit vault file
+ansible-vault decrypt filename.yml		#decrypt vault-password-file
+ansible-vault encrypt filename.yml		#encrypt vault-password-file
+
+#now creat a playbook 
+
+---
+- name: playbook to test ansible vault
+  hosts: all
+  become: true
+  vars_files:
+	- vault-pass.yml
+  tasks:
+	- name: clone a repo
+	  git:
+		repo: https://gitusername:{{ password }}@github.com/reponame.git
+		dest: /opt/ansadm/testdiectoryname
+		
+		
+		
+#### run below command
+ansible-playbook playbook-name.yml --ask-vault-pass
+or
+create a file with vault-password pass.yml and run
+ansible-playbook playbook-name.yml --vault-password-file pass.yml
