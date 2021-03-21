@@ -1,0 +1,36 @@
+ansible role:
+
+In Ansible, the role is the primary mechanism for breaking a playbook into multiple files. This simplifies writing complex playbooks, 
+and it makes them easier to reuse. The breaking of playbook allows you to logically break the playbook into reusable components.
+
+Role directory structure:
+
+tasks/main.yml - the main list of tasks that the role executes.
+
+handlers/main.yml - contains handlers which can be invoked by “notify” directives and are associated with service.
+
+defaults/main.yml - default variables for the role. These variables have the lowest priority of any variables available, and can be easily overridden 
+by any other variable, including inventory variables.
+
+vars/main.yml - contains variables for the role. Variables in vars have higher priority than variables in defaults directory.
+
+files/main.yml - files that the role deploys or files which we want to be copied to the remote host. Files contains static data.
+
+templates/main.yml - similar to files but contains dynamic data. We use the Jinja2 templating language for creating templates.
+
+meta/main.yml - contains metadata of role like an author, support platforms, including role dependencies.
+
+################ how to define variables
+- Define with the file directly
+- passing from external file
+- passing from hosts inventory
+- using group_vars and hosts_vars 
+-Defining variables at runtime
+
+#########################
+Its almost similar, the only difference is "COPY" module (https://docs.ansible.com/ansible/latest/modules/copy_module.html#copy-module) 
+will write the exactly same data on the controller node where are "TEMPLATE" module 
+(https://docs.ansible.com/ansible/latest/modules/template_module.html) will first check for if any variable is present in the playbook, if present, 
+it will first convert the variable to its value then writes the data on the controller node, we "TEMPLATE" supports jinja2 codes.
+
+
