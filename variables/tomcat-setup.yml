@@ -1,0 +1,66 @@
+##playbook to setup tomcat tomcat-setup.yml (using variables inside playbook)
+
+---
+- name: install tomcat server
+  hosts: all
+  become: true
+  vars:
+	- tomcat_url: http://<url>/apache-tomcat-8.5.46.tar.gz
+	- tomcat_package: apache-tomcat-8.5.46
+	
+  tasks:
+	- name: install java
+	  yum:
+		name: java
+		state: latest
+		
+	- name: download tomcat server package
+	  get_url:
+		url: "{{ tomcat_url }}"
+		dest: /usr/local
+		
+	- name: extract tomcat package
+	  unarchive:
+		src: /usr/local/{{ tomcat_package }}.tar.gz
+		dest: /usr/local
+		remote_src: yes
+		
+	- name: start tomcat service
+		shell: nohup /usr/local/{{ tomcat_package }}/bin/startup.sh
+		
+		
+###################################################################Second playbook
+
+create a variable file tomcat_vars and keep the variables inside this file
+vim tomcat_vars
+tomcat_url: http://<url>/apache-tomcat-8.5.46.tar.gz
+tomcat_package: apache-tomcat-8.5.46
+
+##############################then modify tomcat-setup.yml 
+
+---
+- name: install tomcat server
+  hosts: all
+  become: true
+  vars_files:
+	- tomcat_vars
+	
+  tasks:
+	- name: install java
+	  yum:
+		name: java
+		state: latest
+		
+	- name: download tomcat server package
+	  get_url:
+		url: "{{ tomcat_url }}"
+		dest: /usr/local
+		
+	- name: extract tomcat package
+	  unarchive:
+		src: /usr/local/{{ tomcat_package }}.tar.gz
+		dest: /usr/local
+		remote_src: yes
+		
+	- name: start tomcat service
+		shell: nohup /usr/local/{{ tomcat_package }}/bin/startup.sh	
