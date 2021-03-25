@@ -1,0 +1,175 @@
+https://www.linuxtechi.com/use-variables-in-ansible-playbook/
+
+As you know, A playbook is a collection of plays or tasks to be performed on a remote system. In playbooks, variables are handy in determining how 
+tasks can be executed. Assigning a value to a variable in a playbook is quite easy and straightforward.
+
+Begin by calling the vars keyword then call the variable name followed by the value as shown.
+
+---
+ - hosts: all
+   vars:
+     salutations: Hello guys!
+   tasks:
+   - name: Ansible Variable Basic Usage
+       debug:
+       msg: "{{ salutations }}"
+In the playbook above, the variable name is  salutations  and the value is Hello world! When the playbook is run, the value of the playbook is accessed 
+by placing the variable between curly braces as shown above. When executed, the playbook prints the message ‘Hello guys’ on the terminal.
+
+Basic-Variable-ansible-playbook
+
+Variables with Arrays
+You can use arrays and assign them to variables as shown in the syntax below:
+
+vars:
+
+     arrayname:
+
+        – value1
+
+        – value2
+
+For example, the playbook below contains an array of 5 student names stored in a variable called students. You can access the student names through
+indexing ( as you would in arrays in any other programming language)  For example, to retrieve the name ‘Arthur’ from the array list use the syntax students [2] as 
+shown below.
+
+- hosts: all
+  vars:
+    students:
+      - Mark
+      - Melisa
+      - Arthur
+      - Kevin
+      - Lisa
+
+  tasks:
+  - name: Ansible List variable Example
+    debug:
+      msg: "{{ students[2] }}"
+Variables with dictionaries
+From the Array list, you can further define each of the entries using a key value pair forming what we call a dictionary list. The syntax is shown below
+
+vars:
+
+     arrayname:
+
+         dictionary_name1:
+
+              value1: itemvalue1
+
+              value2: itemvalue2
+
+         dictionary_name2:
+
+            value1: itemvalue1
+
+            value2: itemvalue2
+
+Using our previous example, we can have dictionary lists below
+
+- hosts: all
+  vars:
+    students:
+         - Mark: 
+             city: Melbourne
+             address: 0045-0987-8642
+         - Angela: 
+             city: Sydney
+             address: 3456-7685-9087
+To access the dictionary, simply add the task below
+
+  tasks:
+    - debug:
+        var: students
+dictionary-usage-ansible
+
+Variables in Inventory files
+If you have different host systems that share similar attributes or values, you can define what we call group variables. These are used  to assign the attributes 
+which are common to all the hosts.
+
+For example:
+
+Let’s assume we have 2 web servers: webserver_1 and webserver_2 which are both listening to port 443 and whose  ntp server is us.pool.ntp.org. The inventory file 
+will appear as shown:
+
+[web_servers]
+webserver_1
+webserver_2
+
+[web_servers:vars]
+http_port=443
+ntp_server=us.pool.ntp.org
+In the YAML playbook file, this would be represented as shown
+
+   web_servers:
+     hosts:
+       web_server_1:
+       web_server_2:
+         
+         vars:
+           http_port=80
+           ntp_server=us.pool.ntp.org
+The first section defines the remote hosts which are webserver_1 and webserver_2, while the second section groups together the common attributes between the two servers.
+This comes as a very convenient method of applying variables that are common to multiple host systems.
+
+Host and Group variables
+Although you can specify variables in the inventory file, standard practice discourages  storing variables in the inventory file. This is where the host and group 
+variable files come in.
+
+In a host variable file, the variable applier only to one host system in the inventory file. The host variable file is usually stored in the host_vars directory which
+is usually specified in /etc/ansible/ path.
+
+Consider the inventory file below where we have 2 servers each using different ntp servers
+
+[web_servers]
+webserver_1  ntp_server=uk.pool.ntp.org
+webserver_2  ntp_server=de.pool.ntp.org
+Instead of  specifying the variable ntp_server in the inventory file, create 2 host variable files in the host_vars directory with the file name matching each of 
+the hostnames of the host systems:
+
+# vim /etc/ansible/host_vars/webserver_1
+---
+ntp_server=uk.pool.ntp.org
+
+# vim /etc/ansible/host_vars/webserver_2
+---
+ntp_server=de.pool.ntp.org
+If the host systems share the same values, create a group variable file in the  group_vars directory. The group variable file name should match the group of the hosts
+
+Consider the inventory file below
+
+[web_servers]
+webserver_1
+webserver_2
+[web_servers:vars]
+ansible_user=root
+ansible_port=22
+The second section can be defined as a file in the group_vars directory as shown. This should be in the /etc/ansible directory. 
+Remember that the name of the file should be the same as the group name.
+
+# vim /etc/ansible/group_vars/web_servers
+---
+ansible_user=root
+ansible_port=22
+Here, the variables will be accessible to all the hosts of the group called  web_servers.
+
+Special variables in Ansible Playbook
+Another category of variables are special variables. These are builtin variables  which cannot be set by the user and which Ansible will always override.
+To get a list of unique system variable names run the command
+
+# ansible -m setup hostname
+
+Examples of such special variables include:
+
+ansible_all_ipv4_addresses
+ansible_architecture ,
+ansible_bios_version ,
+ansible_os_family ,
+ansible_distribution,
+This will display an  output in JSON format
+
+# ansible -m setup localhost
+ansible-setup-output
+
+With the flexibility and ease of use, variables serve a quintessential purpose in both playbooks and inventory files. They avoid unnecessary
+repetition and make the life of the systems administrator much easier.
