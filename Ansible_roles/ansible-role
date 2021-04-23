@@ -17,3 +17,11 @@ files/main.yml - files that the role deploys or files which we want to be copied
 templates/main.yml - similar to files but contains dynamic data. We use the Jinja2 templating language for creating templates.
 
 meta/main.yml - contains metadata of role like an author, support platforms, including role dependencies.
+
+
+######################### COPY vs TEMPLATE module
+Its almost similar, the only difference is "COPY" module (https://docs.ansible.com/ansible/latest/modules/copy_module.html#copy-module) 
+will write the exactly same data on the controller node where are "TEMPLATE" module 
+(https://docs.ansible.com/ansible/latest/modules/template_module.html) will first check for if any variable is present in the playbook, if present, 
+it will first convert the variable to its value then writes the data on the controller node, "TEMPLATE" supports jinja2 codes.
+
