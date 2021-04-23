@@ -1,0 +1,5 @@
+- Define with the file directly
+- passing from external file
+- passing from hosts inventory
+- using group_vars and hosts_vars 
+- Defining variables at runtime
