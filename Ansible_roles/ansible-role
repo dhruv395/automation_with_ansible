@@ -1,0 +1,19 @@
+In Ansible, the role is the primary mechanism for breaking a playbook into multiple files. This simplifies writing complex playbooks, 
+and it makes them easier to reuse. The breaking of playbook allows you to logically break the playbook into reusable components.
+
+Role directory structure:
+
+tasks/main.yml - the main list of tasks that the role executes.
+
+handlers/main.yml - contains handlers which can be invoked by “notify” directives and are associated with service.
+
+defaults/main.yml - default variables for the role. These variables have the lowest priority of any variables available, and can be easily overridden 
+by any other variable, including inventory variables.
+
+vars/main.yml - contains variables for the role. Variables in vars have higher priority than variables in defaults directory.
+
+files/main.yml - files that the role deploys or files which we want to be copied to the remote host. Files contains static data.
+
+templates/main.yml - similar to files but contains dynamic data. We use the Jinja2 templating language for creating templates.
+
+meta/main.yml - contains metadata of role like an author, support platforms, including role dependencies.
